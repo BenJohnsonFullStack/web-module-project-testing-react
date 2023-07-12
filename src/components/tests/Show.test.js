@@ -1,14 +1,49 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
-import Show from './../Show';
+import React from "react";
+import { render, fireEvent, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import Show from "./../Show";
+import userEvent from "@testing-library/user-event";
 
-test('renders without errors', () => { });
+const exampleTestShow = {
+  name: "Stranger Things",
+  summary: "A show about aliens",
+  seasons: [
+    { id: 0, name: "Season 1", episodes: [] },
+    { id: 1, name: "Season 2", episodes: [] },
+    { id: 2, name: "Season 3", episodes: [] },
+    { id: 3, name: "Season 4", episodes: [] },
+    { id: 4, name: "Season 5", episodes: [] },
+  ],
+};
 
-test('renders Loading component when prop show is null', () => { });
+test("renders without errors", () => {
+  render(<Show show={exampleTestShow} selectedSeason={"none"} />);
+});
 
-test('renders same number of options seasons are passed in', () => { });
+test("renders Loading component when prop show is null", () => {
+  render(<Show show={null} />);
+  const loading = screen.getByTestId("loading-container");
+  expect(loading).toBeInTheDocument();
+});
 
-test('handleSelect is called when an season is selected', () => { });
+test("renders same number of options seasons are passed in", () => {
+  render(<Show show={exampleTestShow} selectedSeason={"none"} />);
+  const seasonList = screen.queryAllByTestId("season-option");
+  expect(seasonList).toHaveLength(5);
+});
 
-test('component renders when no seasons are selected and when rerenders with a season passed in', () => { });
+test("handleSelect is called when an season is selected", () => {
+  const mockHandleSelect = jest.fn();
+  render(
+    <Show
+      show={exampleTestShow}
+      selectedSeason={"none"}
+      handleSelect={mockHandleSelect}
+    />
+  );
+  const select = screen.getByLabelText(/select a season/i);
+  userEvent.selectOptions(select, ["1"]);
+  expect(mockHandleSelect).toBeCalled();
+});
+
+test("component renders when no seasons are selected and when rerenders with a season passed in", () => {});
