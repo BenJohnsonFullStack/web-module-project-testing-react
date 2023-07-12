@@ -9,7 +9,12 @@ const Episode = (props) => {
 
   return (
     <div className="episode" key={id}>
-      <img className="episode-image" src={imgsrc} alt={imgsrc} />
+      <img
+        className="episode-image"
+        data-testid="image"
+        src={imgsrc}
+        alt={imgsrc}
+      />
       <div className="episode-info">
         <p className="episode-number">
           Season {season}, Episode {number}

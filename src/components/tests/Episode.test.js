@@ -8,8 +8,7 @@ const exampleEpisodeData = {
   airstamp: "2016-07-15T12:00:00+00:00",
   airtime: "",
   id: 553946,
-  image:
-    "https://static.tvmaze.com/uploads/images/medium_landscape/342/855786.jpg",
+  image: null,
   name: "Chapter One: The Vanishing of Will Byers",
   number: 1,
   rating: { average: 8.2 },
@@ -32,7 +31,11 @@ test("renders the summary test passed as prop", () => {
   expect(summary.textContent).toMatch(/howdy doody/i);
 });
 
-test("renders default image when image is not defined", () => {});
+test("renders default image when image is not defined", () => {
+  render(<Episode episode={exampleEpisodeData} />);
+  const image = screen.getByTestId("image");
+  expect(image.alt).toContain("https://i.ibb.co/2FsfXqM/stranger-things.png");
+});
 
 // ----- EXAMPLE EPISODE TEST OBJECT -----
 // const exampleEpisodeData = {
