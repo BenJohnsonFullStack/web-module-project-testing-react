@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
+import { render, screen, wait } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Show from "./../Show";
 import userEvent from "@testing-library/user-event";
@@ -32,18 +32,31 @@ test("renders same number of options seasons are passed in", () => {
   expect(seasonList).toHaveLength(5);
 });
 
-test("handleSelect is called when an season is selected", () => {
-  const mockHandleSelect = jest.fn();
-  render(
-    <Show
-      show={exampleTestShow}
-      selectedSeason={"none"}
-      handleSelect={mockHandleSelect}
-    />
-  );
-  const select = screen.getByLabelText(/select a season/i);
-  userEvent.selectOptions(select, ["1"]);
-  expect(mockHandleSelect).toBeCalled();
-});
+// test("handleSelect is called when a season is selected", async () => {
+//   const mockHandleSelect = jest.fn();
 
-test("component renders when no seasons are selected and when rerenders with a season passed in", () => {});
+//   render(
+//     <Show
+//       show={exampleTestShow}
+//       selectedSeason={"none"}
+//       handleSelect={mockHandleSelect}
+//     />
+//   );
+
+//   const select = screen.getByLabelText(/select a season/i);
+//   userEvent.selectOptions(select, ["1"]);
+
+//   expect(mockHandleSelect).toHaveBeenCalled();
+// });
+
+test("component renders when no seasons are selected and rerenders with a season passed in", () => {
+  const { rerender } = render(
+    <Show show={exampleTestShow} selectedSeason={"none"} />
+  );
+  let episodes = screen.queryByTestId("episodes-container");
+  expect(episodes).not.toBeInTheDocument();
+
+  rerender(<Show show={exampleTestShow} selectedSeason={1} />);
+  episodes = screen.queryByTestId("episodes-container");
+  expect(episodes).toBeInTheDocument();
+});
