@@ -32,22 +32,22 @@ test("renders same number of options seasons are passed in", () => {
   expect(seasonList).toHaveLength(5);
 });
 
-// test("handleSelect is called when a season is selected", async () => {
-//   const mockHandleSelect = jest.fn();
+test("handleSelect is called when a season is selected", () => {
+  const mockHandleSelect = jest.fn();
 
-//   render(
-//     <Show
-//       show={exampleTestShow}
-//       selectedSeason={"none"}
-//       handleSelect={mockHandleSelect}
-//     />
-//   );
+  render(
+    <Show
+      show={exampleTestShow}
+      selectedSeason={"none"}
+      handleSelect={mockHandleSelect}
+    />
+  );
 
-//   const select = screen.getByLabelText(/select a season/i);
-//   userEvent.selectOptions(select, ["1"]);
+  const select = screen.getByLabelText(/Select a Season/i);
+  userEvent.selectOptions(select, ["1"]);
 
-//   expect(mockHandleSelect).toHaveBeenCalled();
-// });
+  expect(mockHandleSelect).toHaveBeenCalled();
+});
 
 test("component renders when no seasons are selected and rerenders with a season passed in", () => {
   const { rerender } = render(
